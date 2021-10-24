@@ -1,0 +1,15 @@
+{
+    "name": "fathanakram/emailsender",
+    "authors": [
+        {
+            "name": "fathan",
+            "email": "fathan.a.dev@gmail.com"
+        }
+    ],
+    "require": {
+        "mailjet/mailjet-apiv3-php": "^1.5",
+        "pear/http_request2": "^2.5",
+        "nesbot/carbon": "^2.53",
+        "vlucas/phpdotenv": "^5.3"
+    }
+}
