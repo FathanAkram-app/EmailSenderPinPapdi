@@ -2,6 +2,7 @@
 
     require 'vendor/autoload.php';
     use Carbon\Carbon;
+     
 
     
 
@@ -11,8 +12,10 @@
         private $generated_token;
 
         function __construct(){
+            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+            $dotenv->load();  
             $this->time = strval(floor(DateTime::createFromFormat('U.u', microtime(true))->format('U.u')));;
-            $this->generated_token = hash_hmac("sha256","drdigitalindonesia"."::"."lEuPWDGLSnZcBCH9qprhXYRdw1NIFv8odrdigitalindonesia"."::".$this->time,"lEuPWDGLSnZcBCH9qprhXYRdw1NIFv8odrdigitalindonesia");
+            $this->generated_token = hash_hmac("sha256","drdigitalindonesia"."::".getenv('ES_KM_TOKEN')."::".$this->time,getenv('ES_KM_TOKEN'));
         }
         
         public function sendEmail()
