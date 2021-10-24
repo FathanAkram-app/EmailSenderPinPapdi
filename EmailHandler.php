@@ -3,19 +3,21 @@
     require 'vendor/autoload.php';
     use Carbon\Carbon;
      
-
+    
     
 
     class EmailHandler 
     {
         private $time;
         private $generated_token;
+        private $dotenv;
 
         function __construct(){
-            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-            $dotenv->load();  
+            $this->dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+            $this->dotenv->load(); 
+            
             $this->time = strval(floor(DateTime::createFromFormat('U.u', microtime(true))->format('U.u')));;
-            $this->generated_token = hash_hmac("sha256","drdigitalindonesia"."::".getenv('ES_KM_TOKEN')."::".$this->time,getenv('ES_KM_TOKEN'));
+            $this->generated_token = hash_hmac("sha256","drdigitalindonesia"."::".$_ENV['ES_KM_TOKEN']."::".$this->time,$_ENV['ES_KM_TOKEN']);
         }
         
         public function sendEmail()
@@ -28,7 +30,6 @@
         public function getList()
         {
             $curl = curl_init();
-
             
             curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://api.kirim.email/v3/list',
@@ -49,7 +50,6 @@
             $response = curl_exec($curl);
 
             curl_close($curl);
-            echo $response;
             return json_decode($response,true);
         }
 
